@@ -13,7 +13,7 @@
  * ------------------------------------------------------------
  */
 window.TRANSLATIONS = {
-	'box.mdcalc':			{ fa: 'محاسبات جامع پزشکی', en: 'MDCalc+:' },
+	'box.mdcalc':			{ fa: 'محاسبات جامع پزشکی', en: 'MDCalc+' },
 	
 	// BMI
 	'result.bmititle':		{ fa: 'شاخص توده بدنی:', en: 'BMI:' },
