@@ -2819,7 +2819,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 // Keep this value synchronized with version.json and sw.js.
-const MEDMATE_APP_VERSION = '1.0.0';
+const MEDMATE_APP_VERSION = '1.0.3';
 const MEDMATE_CACHE_PREFIX = 'medmate-pwa-';
 let medmatePwaRegistration = null;
 let medmateUpdateCheckRunning = false;

@@ -1,8 +1,8 @@
 // MedMate PWA service worker.
 // IMPORTANT: for every published app update, change BOTH CACHE_NAME and APP_VERSION.
 const CACHE_PREFIX = "medmate-pwa-";
-const CACHE_NAME = "medmate-pwa-v2";
-const APP_VERSION = "1.0.0";
+const CACHE_NAME = "medmate-pwa-v3";
+const APP_VERSION = "1.0.3";
 const META_CACHE_NAME = "medmate-meta";
 const ACTIVE_INFO_URL = new URL("__medmate_active_cache_info__", self.registration.scope).href;
 const CACHE_READY_URL = new URL("__medmate_cache_ready__", self.registration.scope).href;
