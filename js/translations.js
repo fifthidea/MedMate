@@ -13,9 +13,11 @@
  * ------------------------------------------------------------
  */
 window.TRANSLATIONS = {
+	'box.mdcalc':			{ fa: 'محاسبات جامع پزشکی', en: 'MDCalc+:' },
+	
 	// BMI
 	'result.bmititle':		{ fa: 'شاخص توده بدنی:', en: 'BMI:' },
-	'result.bmicategory':	{ fa: 'دسته:', en: 'Category' },
+	'result.bmicategory':	{ fa: 'دسته:', en: 'Category:' },
 	'category.bmiunderweight':	{ fa: 'لاغر', en: 'underweight' },
 	'category.bminormal':			{ fa: 'نرمال', en: 'normal' },
 	'category.bmioverweight':		{ fa: 'چاق', en: 'overweight' },
