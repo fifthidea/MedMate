@@ -2359,6 +2359,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+
     let onlineBaseTime = null;
     let syncPerformanceTime = null;
 
@@ -2366,7 +2367,10 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(
                 'https://timeapi.io/api/Time/current/zone?timeZone=Asia/Tehran',
-                { cache: 'no-store' }
+                {
+                    cache: 'no-store',
+                    signal: AbortSignal.timeout(5000)
+                }
             );
 
             if (!response.ok) {
@@ -2375,7 +2379,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
 
-            // ساخت زمان مستقل از منطقه زمانی سیستم
+            // ذخیره زمان آنلاین تهران
             onlineBaseTime = Date.UTC(
                 data.year,
                 data.month - 1,
@@ -2388,45 +2392,87 @@ document.addEventListener('DOMContentLoaded', function() {
 
             syncPerformanceTime = performance.now();
             updateDateTime();
-        } catch (error) {
-            console.warn('Online time sync failed:', error);
 
-            if (onlineBaseTime === null && datetimeElement) {
-                datetimeElement.innerText = 'خطا در دریافت زمان آنلاین';
-            }
+        } catch (error) {
+            console.warn('Online time unavailable; using system time.');
+
+            // در صورت شکست دریافت زمان، از ساعت دستگاه استفاده کن
+            onlineBaseTime = null;
+            syncPerformanceTime = null;
+            updateDateTime();
         }
     }
 
     function updateDateTime() {
-        if (!datetimeElement || onlineBaseTime === null) return;
+        if (!datetimeElement) return;
 
-        const now = new Date(
-            onlineBaseTime + performance.now() - syncPerformanceTime
-        );
+        let now;
+        let sourceLabel;
 
-        const parts = new Intl.DateTimeFormat(
-            'en-US-u-ca-persian-nu-latn',
-            {
+        if (onlineBaseTime !== null && syncPerformanceTime !== null) {
+            // زمان آنلاین که با ساعت داخلی مرورگر جلو می‌رود
+            now = new Date(
+                onlineBaseTime + performance.now() - syncPerformanceTime
+            );
+            sourceLabel = 'آنلاین';
+        } else {
+            // تاریخ و ساعت محلی دستگاه
+            now = new Date();
+            sourceLabel = 'سیستم';
+        }
+
+        let dateOptions;
+        let timeOptions;
+
+        if (sourceLabel === 'آنلاین') {
+            // زمان دریافتی از API از قبل به وقت تهران است
+            dateOptions = {
                 timeZone: 'UTC',
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit'
-            }
+            };
+
+            timeOptions = {
+                timeZone: 'UTC',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hourCycle: 'h23'
+            };
+        } else {
+            // استفاده از منطقه زمانی تنظیم‌شده روی دستگاه
+            dateOptions = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            };
+
+            timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hourCycle: 'h23'
+            };
+        }
+
+        const parts = new Intl.DateTimeFormat(
+            'en-US-u-ca-persian-nu-latn',
+            dateOptions
         ).formatToParts(now);
 
         const p = {};
-        parts.forEach(part => p[part.type] = part.value);
+        parts.forEach(part => {
+            p[part.type] = part.value;
+        });
 
-        const time = new Intl.DateTimeFormat('en-GB', {
-            timeZone: 'UTC',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hourCycle: 'h23'
-        }).format(now);
+        const time = new Intl.DateTimeFormat(
+            'en-GB',
+            timeOptions
+        ).format(now);
 
         datetimeElement.innerText =
-            `${p.year}/${p.month}/${p.day} ${time}`;
+            `${p.year}/${p.month}/${p.day} ${time} (${sourceLabel})`;
     }
 
     function switchTab(tabId) {
@@ -2819,7 +2865,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 // Keep this value synchronized with version.json and sw.js.
-const MEDMATE_APP_VERSION = '1.0.4';
+const MEDMATE_APP_VERSION = '1.0.5';
 const MEDMATE_CACHE_PREFIX = 'medmate-pwa-';
 let medmatePwaRegistration = null;
 let medmateUpdateCheckRunning = false;
