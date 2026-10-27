@@ -1,8 +1,8 @@
 // MedMate PWA service worker.
 // IMPORTANT: for every published app update, change BOTH CACHE_NAME and APP_VERSION.
 const CACHE_PREFIX = "medmate-pwa-";
-const CACHE_NAME = "medmate-pwa-v3";
-const APP_VERSION = "1.0.3";
+const CACHE_NAME = "medmate-pwa-v4";
+const APP_VERSION = "1.0.4";
 const META_CACHE_NAME = "medmate-meta";
 const ACTIVE_INFO_URL = new URL("__medmate_active_cache_info__", self.registration.scope).href;
 const CACHE_READY_URL = new URL("__medmate_cache_ready__", self.registration.scope).href;
@@ -11,6 +11,24 @@ const FILES = [
   "./",
   "./index.html",
   "./css/styles.css",
+  "./font-awesome/css/all.min.css",
+  "./font-awesome/webfonts/fa-brands-400.woff2",
+  "./font-awesome/webfonts/fa-regular-400.woff2",
+  "./font-awesome/webfonts/fa-solid-900.woff2",
+  "./font-awesome/webfonts/fa-v4compatibility.woff2",
+  "./vazirmatn/css/vazirmatn-font-face.css",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLCz7Z1JlFc-K.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLCz7Z11lFc-K.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLEj6Z11lFc-K.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2",
+  "./vazirmatn/webfonts/pxiByp8kv8JHgFVrLGT9Z11lFc-K.woff2",
+  "./vazirmatn/webfonts/pxiEyp8kv8JHgFVrJJbecmNE.woff2",
+  "./vazirmatn/webfonts/pxiEyp8kv8JHgFVrJJfecg.woff2",
+  "./vazirmatn/webfonts/pxiEyp8kv8JHgFVrJJnecmNE.woff2",
   "./dist/app.bundle.js",
   "./fonts/Yekan.ttf",
   "./image/Favicon/favicon.ico",
